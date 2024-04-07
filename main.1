@@ -1,0 +1,62 @@
+#include <iostream>
+
+template<typename T>
+class DoublyLinkedList {
+private:
+    struct Node {
+        T data;
+        Node* prev;
+        Node* next;
+        Node(const T& value) : data(value), prev(nullptr), next(nullptr) {}
+    };
+
+    Node* head;
+    Node* tail;
+    size_t size;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+
+    ~DoublyLinkedList() {
+        clear();
+    }
+
+    void append(const T& value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+        size++;
+    }
+
+    void clear() {
+        while (head) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+        tail = nullptr;
+        size = 0;
+    }
+};
+
+template<typename T>
+class Queue : public DoublyLinkedList<T> {
+public:
+    Queue() : DoublyLinkedList<T>() {}
+};
+
+template<typename T>
+class Array : public DoublyLinkedList<T> {
+public:
+    Array() : DoublyLinkedList<T>() {}
+};
+
+int main() {
+    return 0;
+}
